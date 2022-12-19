@@ -1,0 +1,54 @@
+create database store;
+
+create table countries(
+    code int primary key ,
+    name varchar(20) unique ,
+    continent_name varchar(15) not null
+);
+create table users(
+    id int primary key ,
+    email varchar(20) unique ,
+    gender varchar(6) check ( gender='male' or gender = 'female' ),
+    full_name varchar(20) not null ,
+    date_of_birth varchar(20) not null ,
+    created_at varchar(20) not null,
+    country_code int not null ,
+    foreign key (country_code) references countries(code)
+);
+create table orders(
+    id int primary key ,
+    status varchar(6) check ( status='start' or status = 'finish' ),
+    created_at varchar(20) not null not null ,
+    user_id int not null ,
+    foreign key (user_id) references users(id)
+);
+create table products(
+    id int primary key ,
+    name varchar(20) not null ,
+    created_at varchar(20) not null ,
+    price int default 0,
+    status varchar(8) check ( status='valid' or status = 'expired' )
+);
+create table order_product(
+    order_id int not null ,
+    product_id int not null ,
+    quantity int default 0,
+    foreign key(order_id) references orders(id),
+    foreign key (product_id) references products(id)
+);
+
+insert into countries values (966,'Qatar','asia');
+insert into users values (112,'ab@gmail.com','male','abdullah','5/5/1999','2022-11-11',966);
+insert into orders values (2258,'start','12/12/2022',112);
+insert into products values (9898,'phone','23/10/2022',5000,'valid');
+insert into order_product values (2258,9898,10);
+
+select * from countries;
+update countries set name='Saudi' where code='966';
+
+select * from products;
+delete from order_product where product_id=9898;
+delete from products where id=9898;
+
+select * from products;
+
