@@ -50,10 +50,14 @@ public class UserService {
     }
     public List<User> getAllByRole(String role){
         List<User> users= userRepository.getAllByRole(role);
+        if(users.isEmpty())
+            throw new APIException("Wrong role");
         return users;
     }
     public List<User> getbyAge(Integer age){
         List<User> users= userRepository.getAllByAgeGreaterThanEqual(age);
+        if(users.isEmpty())
+            throw new APIException("there is no user of this age or older");
         return users;
     }
 }
